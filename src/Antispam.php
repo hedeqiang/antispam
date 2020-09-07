@@ -27,7 +27,7 @@ class Antispam
      * 文本检测
      * @param string $content
      * @param array $params 可选值 文档中 请求参数 是否必选 为 N 都可以放到这里
-     * @param array $extras
+     * @param array $extras 业务扩展参数
      * @return array
      */
     public function textScan(string $content,array $params = [],array $extras = [])
@@ -45,12 +45,14 @@ class Antispam
     /**
      * 文本批量检测
      * @param array $texts content 字段 需要检测的内容 ['文本1','文本2']
-     * @param array $extras
+     * @param array $params
+     * @param array $extras 业务扩展参数
      * @return array
      */
     public function textBatchScan($texts = [],array $extras = [])
     {
         $params['texts'] = json_encode($this->getTask($texts));
+        $params = array_merge($params,$extras);
         $params = $this->baseParams($params);
         $params["signature"] = $this->gen_signature($this->config->get('secretKey'), $params);
 
@@ -126,12 +128,18 @@ class Antispam
      * @param array $texts
      * @return array
      */
-    public function getTask(array $texts): array
+    public function getTask(array $texts)
     {
         $tasks = [];
         foreach ($texts as $k => $v) {
             $arr['dataId'] = uniqid();
-            $arr['content'] = $v;
+            $arr['content'] = $v['content'];
+//            $arr['title'] = $v['title'] ?? '';
+//            $arr['dataType'] = $v['dataType'] ?? '';
+//            $arr['callback'] = $v['callback'] ?? '';
+//            $arr['publishTime'] = $v['publishTime'] ?? '';
+//            $arr['callbackUrl'] = $v['callbackUrl'] ?? '';
+//            $arr['checkLabels'] = $v['checkLabels'] ?? '';
             $tasks[] = $arr;
         }
         return $tasks;
