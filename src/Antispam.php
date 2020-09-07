@@ -128,7 +128,7 @@ class Antispam
      * @param array $texts
      * @return array
      */
-    public function getTask(array $texts)
+    public function getTask(array $texts): array
     {
         $tasks = [];
         foreach ($texts as $k => $v) {
