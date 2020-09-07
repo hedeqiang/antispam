@@ -1,0 +1,21 @@
+{
+    "name": "hedeqiang\/antispam",
+    "description": "网易易盾内容安全 PHP SDK",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "hedeqiang",
+            "email": "laravel_code@163.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0",
+        "ext-mbstring": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hedeqiang\\Antispam\\": "src"
+        }
+    }
+}
