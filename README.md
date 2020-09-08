@@ -118,6 +118,47 @@ $response = $antispam->imageScan($images);
 More...
 
 
+### More...
+
+## 在 Laravel 中使用
+#### 发布配置文件
+```php
+php artisan vendor:publish --tag=antispam
+```
+##### 编写 .env 文件
+```
+YIDUN_GREEN_SECRET_ID=
+YIDUN_GREEN_SECRET_KEY=
+YIDUN_GREEN_BUSINESS_ID=
+```
+
+### 方法参数注入
+> 参数和上面一样
+
+```php
+use Hedeqiang\Antispam\Antispam;
+
+public function index(Antispam $antispam)
+{
+    $response = $antispam->textScan();
+}
+```
+### 服务名访问
+```php
+public function index()
+{
+    $response = app('antispam')->textScan(); 
+}
+```
+
+### Facades 门面使用(可以提示)
+```php
+use Hedeqiang\Antispam\Facades\Antispam;
+$response = Antispam::green()->textScan();
+```
+
+
+
 ## Contributing
 
 You can contribute in one of three ways:
