@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the hedeqiang/antispam.
+ *
+ * (c) hedeqiang<laravel_code@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Hedeqiang\Antispam\Traits;
 
@@ -14,7 +22,6 @@ trait HasHttpRequest
     /**
      * Make a get request.
      *
-     * @param string $endpoint
      * @param array $query
      * @param array $headers
      *
@@ -31,7 +38,6 @@ trait HasHttpRequest
     /**
      * Make a post request.
      *
-     * @param string $endpoint
      * @param array $params
      * @param array $headers
      *
@@ -65,8 +71,6 @@ trait HasHttpRequest
     /**
      * Make a http request.
      *
-     * @param string $method
-     * @param string $endpoint
      * @param array $options http://docs.guzzlephp.org/en/latest/request-options.html
      *
      * @return array
@@ -94,7 +98,6 @@ trait HasHttpRequest
     /**
      * Return http client.
      *
-     * @param array $options
      * @return \GuzzleHttp\Client
      *
      * @codeCoverageIgnore
@@ -107,7 +110,6 @@ trait HasHttpRequest
     /**
      * Convert response contents to json.
      *
-     * @param ResponseInterface $response
      * @return ResponseInterface|array|string
      */
     protected function unwrapResponse(ResponseInterface $response)
