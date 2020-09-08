@@ -17,5 +17,12 @@
         "psr-4": {
             "Hedeqiang\\Antispam\\": "src"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hedeqiang\\Antispam\\ServiceProvider"
+            ]
+        }
     }
 }
