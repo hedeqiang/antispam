@@ -22,6 +22,7 @@ $config = [
 ];
 $antispam = new Antispam($config);
 ```
+## 文本
 ### 单文本检测
 ```php
 $response = $antispam->textScan(['content' => 'XXX']);
@@ -55,8 +56,67 @@ $extras = [
 $response = $antispam->textBatchScan($params,$extras);
 ```
 
+### 文本离线结果获取
+```php
+$response = $antispam->textCallback();
+```
 
-TODO
+### 文本机器结果反馈接口
+```php
+$feedback = [
+    ['taskId' => 'e8e13a01024345db8e04c0dfaed2ec50','version' => 'v1','level' => 0,'label' => 100]
+]; 
+$response = $antispam->textFeedback($feedback);
+```
+
+### 自定义文本关键词-添加
+```php
+$params = [
+    'category' => '100',
+    'keywords' => 'XXX,XXX,XXX,XXX,XXX,XXX,XXX'
+];
+$response  = $antispam->addKeyWorld($params);
+```
+
+### 自定义关键词-删除
+```php
+$ids =['23234140','23234141'];
+$response = $antispam->delKeyWorld($ids);
+```
+
+### 自定义关键词查询接口
+```php
+$response = $antispam->textQuery();
+
+// 也可传入制定参数
+$params = [
+    'id' => '23223254',
+    'keyword' => 'XXX',
+    'category' => 100,
+    'orderType' => 1,
+    'pageNum' => 100,
+    'pageSize' => 10,
+];
+
+$response = $antispam->textQuery($params);
+```
+
+## 图片
+
+### 图片在线检测
+```php
+$images = [
+    ['name' => '','type' => '','data' => '','callbackUrl' => ''],
+    ['name' => '','type' => '','data' => '','callbackUrl' => ''],
+    ['name' => '','type' => '','data' => '','callbackUrl' => ''],
+    ['name' => '','type' => '','data' => '','callbackUrl' => ''],
+];
+// array $checkLabels = [],array $extras = []
+$response = $antispam->imageScan($images);
+```
+
+More...
+
 
 ## Contributing
 
