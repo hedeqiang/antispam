@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the hedeqiang/antispam.
+ *
+ * (c) hedeqiang<antispam>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Hedeqiang\Antispam;
 
@@ -18,7 +26,6 @@ class Config implements ArrayAccess
 
     /**
      * Config constructor.
-     * @param array $config
      */
     public function __construct(array $config)
     {
@@ -28,7 +35,6 @@ class Config implements ArrayAccess
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param string $key
      * @param mixed $default
      *
      * @return mixed
@@ -55,7 +61,6 @@ class Config implements ArrayAccess
     /**
      * Set an array item to a given value using "dot" notation.
      *
-     * @param string $key
      * @param mixed $value
      *
      * @return array
@@ -81,8 +86,6 @@ class Config implements ArrayAccess
 
     /**
      * Determine if the given configuration value exists.
-     *
-     * @param string $key
      *
      * @return bool
      */
