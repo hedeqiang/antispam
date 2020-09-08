@@ -10,8 +10,6 @@ class Antispam
 
     protected  $config;
 
-
-
     public function __construct(array $config)
     {
         $this->config = new Config($config);
@@ -23,8 +21,12 @@ class Antispam
      * @param array $extras 业务扩展参数
      * @return array
      */
-    public function textScan(array $params = [],array $extras = [])
+    public function textScan(array $params = [],array $extras = []): array
     {
+        /*$params = [
+            'content' => 'XXX','title' => 'XXX','dataId' => 123
+        ];*/
+
         $params = $this->getTask($params);
         $params = array_merge($params,$extras);
         if (empty($params['version'])){
@@ -41,8 +43,13 @@ class Antispam
      * @param array $extras 业务扩展参数
      * @return array
      */
-    public function textBatchScan($texts = [],array $extras = [])
+    public function textBatchScan($texts = [],array $extras = []): array
     {
+        /*$texts = [
+            ['content' => 'XXX','title' => 'XXX','dataId' => 123],
+            ['content' => 'XXX','title' => 'XXX']
+        ];*/
+
         $params['texts'] = json_encode($this->getTask($texts));
         $params = array_merge($params,$extras);
         $params['version'] = Url::TEXT_VERSION;
@@ -55,7 +62,7 @@ class Antispam
      * 文本离线结果获取
      * @return array
      */
-    public function textCallback()
+    public function textCallback(): array
     {
         $params['version'] = Url::TEXT_VERSION;
         $params = $this->baseParams($params);
@@ -68,10 +75,14 @@ class Antispam
      * @param array $feedbacks String(json数组) 参考：https://support.dun.163.com/documents/2018041901?docId=396075425773023232
      * @return array
      */
-    public function textFeedback(array $feedbacks)
+    public function textFeedback(array $feedbacks): array
     {
+        /*
+        $feedback = [
+            ['taskId' => 'e8e13a01024345db8e04c0dfaed2ec50','version' => 'v1','level' => 0,'label' => 100]
+        ];*/
+
         $params['feedbacks'] = json_encode($feedbacks);
-        //return $params;
         $params['version'] = Url::ENDPOINT_TEXT_FEEDBACK_VERSION;
         $params = $this->baseParams($params);
 
@@ -83,12 +94,13 @@ class Antispam
      * @param array $params  参考： https://support.dun.163.com/documents/2018041901?docId=424741951897509888
      * @return array
      */
-    public function addKeyWorld(array $params)
+    public function addKeyWorld(array $params): array
     {
-//        $params = [
-//            'category' => '100',
-//            'keywords' => 'XXX,XXX,XXX,XXX,XXX,XXX,XXX'
-//        ];
+        /*$params = [
+            'category' => '100',
+            'keywords' => 'XXX,XXX,XXX,XXX,XXX,XXX,XXX'
+        ];*/
+
         $params = $this->getTask($params);
         if (empty($params['version'])){
             $params['version'] = Url::ENDPOINT_TEXT_KEYWORD_VERSION;
@@ -103,14 +115,17 @@ class Antispam
      * @param array $ids https://support.dun.163.com/documents/2018041901?docId=424742251085602816
      * @return array
      */
-    public function delKeyWorld(array $ids)
+    public function delKeyWorld(array $ids): array
     {
+        // $ids =['23234140','23234141'];
+
+        $params['ids'] = implode(',',$ids);
         if (empty($params['version'])){
             $params['version'] = Url::ENDPOINT_TEXT_KEYWORD_VERSION;
         }
         $params = $this->baseParams($params);
-        //return $params;
-        return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_KEYWORD_URL_VERSION,'keyword/submit'),$params);
+
+        return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_KEYWORD_URL_VERSION,'keyword/delete'),$params);
     }
 
     /**
@@ -118,16 +133,17 @@ class Antispam
      * @param array $params 参考：https://support.dun.163.com/documents/2018041901?docId=428324742066655232
      * @return array
      */
-    public function TextQuery(array $params = [])
+    public function textQuery(array $params = []): array
     {
-//        $params = [
-//            'id' => '23223254',
-//            'keyword' => 'XXX',
-//            'category' => 100,
-//            'orderType' => 1,
-//            'pageNum' => 100,
-//            'pageSize' => 10,
-//        ];
+        /*$params = [
+            'id' => '23223254',
+            'keyword' => 'XXX',
+            'category' => 100,
+            'orderType' => 1,
+            'pageNum' => 100,
+            'pageSize' => 10,
+        ];*/
+
         if (empty($params['version'])){
             $params['version'] = Url::ENDPOINT_TEXT_KEYWORD_VERSION;
         }
@@ -143,7 +159,7 @@ class Antispam
      * @param array $extras 业务参数
      * @return array
      */
-    public function imageScan(array $images,array $checkLabels = [],array $extras = [])
+    public function imageScan(array $images,array $checkLabels = [],array $extras = []): array
     {
         $params['version'] = Url::IMAGE_VERSION;
         $params['images'] = json_encode($this->getTask($images));
@@ -157,7 +173,7 @@ class Antispam
      * 图片离线结果获取
      * @return array
      */
-    public function imageCallback()
+    public function imageCallback(): array
     {
         $params['version'] = Url::IMAGE_VERSION;
         $params = $this->baseParams($params);
@@ -170,7 +186,7 @@ class Antispam
      * @param array $feedbacks String(json数组) 参考：https://support.dun.163.com/documents/2018041901?docId=396075425773023232
      * @return array
      */
-    public function imageFeedback(array $feedbacks)
+    public function imageFeedback(array $feedbacks): array
     {
         $params['feedbacks'] = json_encode($feedbacks);
         //return $params;
@@ -187,8 +203,9 @@ class Antispam
      * @param $params
      * @return array
      */
-    protected function toUtf8($params){
-        $utf8s = array();
+    protected function toUtf8($params): array
+    {
+        $utf8s = [];
         foreach ($params as $key => $value) {
             $utf8s[$key] = is_string($value) ? mb_convert_encoding($value, "utf8", Url::INTERNAL_STRING_CHARSET) : $value;
         }
@@ -228,7 +245,7 @@ class Antispam
         $params["businessId"] = $this->config->get('businessId');
         $params["timestamp"] = time() * 1000;// time in milliseconds
         $params["nonce"] = sprintf("%d", rand()); // random int
-        $params["dataId"] = uniqid();
+        //$params["dataId"] = uniqid();
 
         $params = $this->toUtf8($params);
         $params["signature"] = $this->gen_signature($this->config->get('secretKey'), $params);
