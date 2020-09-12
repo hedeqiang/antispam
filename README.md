@@ -2,6 +2,7 @@
 
 <p align="center"> 网易云 易盾 内容安全 PHP SDK </p>
 
+在使用本扩展之前，你需要去 [网易易盾](https://dun.163.com/) 获取 `secretId`、`secretKey`、`businessId`
 
 ## Installing
 
