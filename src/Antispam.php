@@ -196,7 +196,6 @@ class Antispam
     public function imageFeedback(array $feedbacks): array
     {
         $params['feedbacks'] = json_encode($feedbacks);
-        //return $params;
         $params['version'] = Url::IMAGE_VERSION;
         $params = $this->baseParams($params, 'image');
 
@@ -277,7 +276,7 @@ class Antispam
 
         $params = $this->toUtf8($params);
         $params['signature'] = $this->gen_signature($secretKey, $params);
-        //print_r($params);
+
         return $params;
     }
 
