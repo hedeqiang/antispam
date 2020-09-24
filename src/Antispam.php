@@ -41,7 +41,7 @@ class Antispam
         if (empty($params['version'])) {
             $params['version'] = Url::TEXT_VERSION;
         }
-        $params = $this->baseParams($params,'text');
+        $params = $this->baseParams($params, 'text');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_URL_VERSION, 'text/check'), $params);
     }
@@ -62,7 +62,7 @@ class Antispam
         $params['texts'] = json_encode($this->getTask($texts));
         $params = array_merge($params, $extras);
         $params['version'] = Url::TEXT_VERSION;
-        $params = $this->baseParams($params,'text');
+        $params = $this->baseParams($params, 'text');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_URL_VERSION, 'text/batch-check'), $params);
     }
@@ -73,7 +73,7 @@ class Antispam
     public function textCallback(): array
     {
         $params['version'] = Url::TEXT_VERSION;
-        $params = $this->baseParams($params,'text');
+        $params = $this->baseParams($params, 'text');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_URL_VERSION, 'text/callback/results'), $params);
     }
@@ -92,7 +92,7 @@ class Antispam
 
         $params['feedbacks'] = json_encode($feedbacks);
         $params['version'] = Url::ENDPOINT_TEXT_FEEDBACK_VERSION;
-        $params = $this->baseParams($params,'text');
+        $params = $this->baseParams($params, 'text');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_FEEDBACK_URL_VERSION, 'text/feedback'), $params);
     }
@@ -113,7 +113,7 @@ class Antispam
         if (empty($params['version'])) {
             $params['version'] = Url::ENDPOINT_TEXT_KEYWORD_VERSION;
         }
-        $params = $this->baseParams($params,'text');
+        $params = $this->baseParams($params, 'text');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_KEYWORD_URL_VERSION, 'keyword/submit'), $params);
     }
@@ -131,7 +131,7 @@ class Antispam
         if (empty($params['version'])) {
             $params['version'] = Url::ENDPOINT_TEXT_KEYWORD_VERSION;
         }
-        $params = $this->baseParams($params,'text');
+        $params = $this->baseParams($params, 'text');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_KEYWORD_URL_VERSION, 'keyword/delete'), $params);
     }
@@ -155,7 +155,7 @@ class Antispam
         if (empty($params['version'])) {
             $params['version'] = Url::ENDPOINT_TEXT_KEYWORD_VERSION;
         }
-        $params = $this->baseParams($params,'text');
+        $params = $this->baseParams($params, 'text');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_KEYWORD_URL_VERSION, 'keyword/query'), $params);
     }
@@ -172,7 +172,7 @@ class Antispam
         $params['version'] = Url::IMAGE_VERSION;
         $params['images'] = json_encode($this->getTask($images));
         $params = array_merge($params, $checkLabels, $extras);
-        $params = $this->baseParams($params,'image');
+        $params = $this->baseParams($params, 'image');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_IMAGE_URL_VERSION, 'image/check'), $params);
     }
@@ -183,7 +183,7 @@ class Antispam
     public function imageCallback(): array
     {
         $params['version'] = Url::IMAGE_VERSION;
-        $params = $this->baseParams($params,'image');
+        $params = $this->baseParams($params, 'image');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_URL_VERSION, 'image/callback/results'), $params);
     }
@@ -198,7 +198,7 @@ class Antispam
         $params['feedbacks'] = json_encode($feedbacks);
         //return $params;
         $params['version'] = Url::IMAGE_VERSION;
-        $params = $this->baseParams($params,'image');
+        $params = $this->baseParams($params, 'image');
 
         return $this->post($this->buildEndpoint(Url::ENDPOINT_TEXT_FEEDBACK_URL_VERSION, 'image/feedback'), $params);
     }
@@ -245,15 +245,11 @@ class Antispam
 
     /**
      * 基础参数.
-     * @param array $params
-     * @param string $type
-     * @return array
      */
-    protected function baseParams(array $params,string $type = 'text'): array
+    protected function baseParams(array $params, string $type = 'text'): array
     {
         $secretKey = null;
-        switch ($type)
-        {
+        switch ($type) {
             case 'text':
                 $secretKey = $this->config->get('text.secretKey');
                 $params['secretId'] = $this->config->get('text.secretId');
@@ -274,7 +270,6 @@ class Antispam
                 $params['secretId'] = $this->config->get('video.secretId');
                 $params['businessId'] = $this->config->get('video.businessId');
                 break;
-
         }
 
         $params['timestamp'] = time() * 1000; // time in milliseconds
@@ -290,8 +285,6 @@ class Antispam
      * Build endpoint url.
      *
      * @param $version
-     * @param string $url
-     * @return string
      */
     protected function buildEndpoint($version, string $url): string
     {
@@ -299,7 +292,6 @@ class Antispam
     }
 
     /**
-     * @param array $texts
      * @return array
      */
     protected function getTask(array $texts)
