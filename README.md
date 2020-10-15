@@ -17,24 +17,20 @@ require __DIR__ .'/vendor/autoload.php';
 use Hedeqiang\Antispam\Antispam;
 
 $config = [
-    'text' => [
+    'account' => [
         'secretId' => '',
         'secretKey' => '',
+    ],
+    'text' => [
         'businessId' => '',
     ],
     'image' => [
-        'secretId' => '',
-        'secretKey' => '',
         'businessId' => '',
     ],
     'audio' => [
-        'secretId' => '',
-        'secretKey' => '',
         'businessId' => '',
     ],
     'video' => [
-        'secretId' => '',
-        'secretKey' => '',
         'businessId' => '',
     ],
 ];
@@ -145,21 +141,12 @@ php artisan vendor:publish --tag=antispam
 ```
 ##### 编写 .env 文件
 ```
-TEXT_SECRET_ID=
-TEXT_SECRET_KEY=
-TEXT_BUSINESS_ID=
-
-IMAGE_SECRET_ID=
-IMAGE_SECRET_KEY=
-IMAGE_BUSINESS_ID=
-
-AUDIO_SECRET_ID=
-AUDIO_SECRET_KEY=
-AUDIO_BUSINESS_ID=
-
-VIDEO_SECRET_ID=
-VIDEO_SECRET_KEY=
-VIDEO_BUSINESS_ID=
+DUN_SECRET_ID=
+DUN_SECRET_KEY=
+DUN_TEXT_BUSINESS_ID=
+DUN_IMAGE_BUSINESS_ID=
+DUN_AUDIO_BUSINESS_ID=
+DUN_VIDEO_BUSINESS_ID=
 ```
 
 ### 方法参数注入

@@ -29,6 +29,7 @@ class Antispam
      *
      * @param array $params 请求参数，建议 是否必选 Y 的都传递，N 可不传
      * @param array $extras 业务扩展参数
+     * @return array
      */
     public function textScan(array $params = [], array $extras = []): array
     {
@@ -49,8 +50,9 @@ class Antispam
     /**
      * 文本批量检测.
      *
-     * @param array $texts  数组，详情参考 https://support.dun.163.com/documents/2018041901?docId=424382077801385984
+     * @param array $texts 数组，详情参考 https://support.dun.163.com/documents/2018041901?docId=424382077801385984
      * @param array $extras 业务扩展参数
+     * @return array
      */
     public function textBatchScan($texts = [], array $extras = []): array
     {
@@ -82,6 +84,7 @@ class Antispam
      * 文本机器结果反馈接口.
      *
      * @param array $feedbacks String(json数组) 参考：https://support.dun.163.com/documents/2018041901?docId=396075425773023232
+     * @return array
      */
     public function textFeedback(array $feedbacks): array
     {
@@ -101,6 +104,7 @@ class Antispam
      * 自定义文本关键词-添加.
      *
      * @param array $params 参考： https://support.dun.163.com/documents/2018041901?docId=424741951897509888
+     * @return array
      */
     public function addKeyWorld(array $params): array
     {
@@ -122,6 +126,7 @@ class Antispam
      * 自定义关键词-删除.
      *
      * @param array $ids https://support.dun.163.com/documents/2018041901?docId=424742251085602816
+     * @return array
      */
     public function delKeyWorld(array $ids): array
     {
@@ -140,6 +145,7 @@ class Antispam
      * 自定义关键词查询接口.
      *
      * @param array $params 参考：https://support.dun.163.com/documents/2018041901?docId=428324742066655232
+     * @return array
      */
     public function textQuery(array $params = []): array
     {
@@ -163,9 +169,10 @@ class Antispam
     /**
      * 图片在线检测.
      *
-     * @param array $images      基本参数 String(json数组)
+     * @param array $images 基本参数 String(json数组)
      * @param array $checkLabels String 数组 接口指定过检分类，可多选，过检分类列表：100：色情，110：性感低俗，200：广告，210：二维码，300：暴恐，400：违禁，500：涉政
-     * @param array $extras      业务参数
+     * @param array $extras 业务参数
+     * @return array
      */
     public function imageScan(array $images, array $checkLabels = [], array $extras = []): array
     {
@@ -192,6 +199,7 @@ class Antispam
      * 图片机器结果反馈接口.
      *
      * @param array $feedbacks String(json数组) 参考：https://support.dun.163.com/documents/2018041901?docId=396075425773023232
+     * @return array
      */
     public function imageFeedback(array $feedbacks): array
     {
@@ -208,6 +216,7 @@ class Antispam
      * @params 输入的参数
      *
      * @param $params
+     * @return array
      */
     protected function toUtf8($params): array
     {
@@ -226,6 +235,7 @@ class Antispam
      *
      * @param $secretKey
      * @param $params
+     * @return string
      */
     protected function gen_signature($secretKey, $params): string
     {
@@ -244,29 +254,25 @@ class Antispam
 
     /**
      * 基础参数.
+     * @param array $params
+     * @param string $type
+     * @return array
      */
     protected function baseParams(array $params, string $type = 'text'): array
     {
-        $secretKey = null;
+        $secretKey = $this->config->get('account.secretKey');
+        $params['secretId'] = $this->config->get('account.secretId');
         switch ($type) {
             case 'text':
-                $secretKey = $this->config->get('text.secretKey');
-                $params['secretId'] = $this->config->get('text.secretId');
                 $params['businessId'] = $this->config->get('text.businessId');
                 break;
             case 'image':
-                $secretKey = $this->config->get('image.secretKey');
-                $params['secretId'] = $this->config->get('image.secretId');
                 $params['businessId'] = $this->config->get('image.businessId');
                 break;
             case 'audio':
-                $secretKey = $this->config->get('audio.secretKey');
-                $params['secretId'] = $this->config->get('audio.secretId');
                 $params['businessId'] = $this->config->get('audio.businessId');
                 break;
             case 'video':
-                $secretKey = $this->config->get('video.secretKey');
-                $params['secretId'] = $this->config->get('video.secretId');
                 $params['businessId'] = $this->config->get('video.businessId');
                 break;
         }
@@ -284,6 +290,8 @@ class Antispam
      * Build endpoint url.
      *
      * @param $version
+     * @param string $url
+     * @return string
      */
     protected function buildEndpoint($version, string $url): string
     {
@@ -291,6 +299,7 @@ class Antispam
     }
 
     /**
+     * @param array $texts
      * @return array
      */
     protected function getTask(array $texts)
